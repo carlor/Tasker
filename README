@@ -1,0 +1,86 @@
+Tasker 0.1.0
+Copyright (C) 2012 Nathan M. Swan
+Licensed under the GNU GPL, see the LICENSE file.
+
+Overview
+--------
+Tasker is a task management system designed to leave little choice to the user,
+forcing them to do the unpleasant task rather than the easier and less urgent
+task they prefer.
+
+Building
+--------
+It comes as a NetBeans project, so that can be used, or you can use the ant
+build script.
+
+User Manual
+-----------
+Tasker shows the task you should currently be working on, the "current task."
+It hides the other tasks, which are stored in the ~/default.tasker file.
+
+The information it desplays are:
+    1. Absolute effort
+        The effort you specified when you created this task, a measure of the
+        time and energy required.
+    2. Days left
+        The urgency of completing the task, a measure of the time left until
+        the due date.
+    3. Relative effort
+        The amount of effort to be spent each day.
+
+These are the operations which change your task list:
+
+    1. Add Task...
+        Launches a dialog where you configure your task. The description should
+        be a fully descriptive name for what the task is. Effort is, on a 0-100
+        scale, the time and energy required to complete the task. Fill in the
+        number of days left until the due date in the Days Left box.
+    2. Put Off
+        Puts the current task back into the list, taking out a new task. This
+        should be used, for example, with easy tasks that can be responsibly
+        put off. Don't use this feature too much, though, or you defeat the
+        purpose of Tasker.
+    3. Complete
+        Declare that the task is finished, removing it from the list of tasks
+        And displaying a new task.
+    4. Taskdump
+        Displays info on all tasks to stdout. If you do not know what this
+        means, this feature isn't for you.
+
+Technical Details
+-----------------
+It chooses tasks based relative effort, defined:
+
+    relative_effort = absolute_effort / days_left
+
+Absolute effort is a 0-100 user-defined measure of the time and energy required
+of the given task, while days_left is the number of days left until the user-
+specified due date. Relative effort can be seen as effort per day.
+
+Tasker doesn't just choose the task with the highest relative effort on the
+task list as the next task. Doing so could force the user into doing similar
+hard projects, and sometimes they need a break. Instead, it randomly chooses
+a task from the list with bias towards higher relative effort.
+
+To be mathematical about it, it chooses the nth index of a list reverse sorted
+by relative effort where R is a random number of Gaussian distribution where:
+
+    n = floor(|2R|)
+    
+It reads from the task file ~/default.tasker, which is in a text-based format
+with time measured in millinix-time (milliseconds from the Unix epoch). This
+is the grammar:
+
+    TaskerFile ::=
+        'tasker0.1' ['empty' | NotEmpty]
+    NotEmpty ::=
+        'current:' Task 'others:' Others
+    Others ::=
+        [Task | Task Others]
+    Task ::=
+        Description AbsoluteEffort MillinixDueDate
+        
+The description will have underscores ('_') in place of spaces (' ').
+
+Future incompatible versions will have differnet signatures.
+
