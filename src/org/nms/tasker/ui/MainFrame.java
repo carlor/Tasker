@@ -7,6 +7,7 @@
  */
 package org.nms.tasker.ui;
 
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import org.nms.tasker.tasks.Task;
 import org.nms.tasker.tasks.TaskManager;
@@ -53,8 +54,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new CurrentTaskPane();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,6 +76,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton1);
+        jToolBar1.add(jSeparator2);
 
         jButton2.setText("Put Off");
         jButton2.setFocusable(false);
@@ -94,6 +99,18 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton3);
+        jToolBar1.add(jSeparator1);
+
+        jButton5.setText("Shuffle");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton5);
 
         jButton4.setText("Taskdump");
         jButton4.setFocusable(false);
@@ -138,15 +155,21 @@ public class MainFrame extends javax.swing.JFrame {
 
     // called when the "Put Off" button is pressed
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Task cur = tasks.currentTask();
-        tasks.nextTask();
-        tasks.addTask(cur);
+        try {
+            tasks.putOffCurrentTask();
+        } catch (IllegalStateException ise) {
+            beep();
+        }
         update();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // called when the "Complete" button is pressed
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        tasks.nextTask();
+        try {
+            tasks.completeCurrentTask();
+        } catch (IllegalStateException ise) {
+            beep();
+        }
         update();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -157,8 +180,22 @@ public class MainFrame extends javax.swing.JFrame {
                     t.getDescription(), t.getAbsoluteEffort(), t.daysLeft(), t.getRelativeEffort());
         }
         System.out.println();
+        beep();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            tasks.shuffle();
+        } catch (IllegalStateException ise) {
+            beep();
+        }
+        update();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void beep() {
+        Toolkit.getDefaultToolkit().beep();
+    }
+    
     // starts the MainFrame
     public static void main(String args[]) {
         // run unit testing
@@ -201,7 +238,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
