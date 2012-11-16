@@ -115,6 +115,7 @@ public class TaskManager implements Comparator<Task> {
     // iterates over all the tasks excluding the current one
     // non-deterministic order should be assumed
     public Iterable<Task> others() {
+        resort();
         return otherTasks;
     }
     

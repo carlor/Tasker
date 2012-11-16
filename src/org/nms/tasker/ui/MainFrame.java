@@ -8,6 +8,8 @@
 package org.nms.tasker.ui;
 
 import java.awt.Toolkit;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import org.nms.tasker.tasks.Task;
 import org.nms.tasker.tasks.TaskManager;
@@ -26,6 +28,8 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             handle(ex);
         }
+        
+        initTimer();
     }
     
     // Updates the UI to the current state and saves the task file
@@ -194,6 +198,16 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void beep() {
         Toolkit.getDefaultToolkit().beep();
+    }
+    
+    private void initTimer() {
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                // relative efforts can get refreshed
+                update();
+            }
+        }, 0, 1000*60); // every minute
     }
     
     // starts the MainFrame
