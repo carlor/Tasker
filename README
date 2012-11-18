@@ -43,7 +43,11 @@ These are the operations which change your task list:
     3. Complete
         Declare that the task is finished, removing it from the list of tasks
         And displaying a new task.
-    4. Taskdump
+    4. Shuffle
+        Just like "Put Off," but it considers the current task. Use if, after
+        adding a batch of tasks, you want to see if one is more important, or
+        if you should continue on your current one.
+    5. Taskdump
         Displays info on all tasks to stdout. If you do not know what this
         means, this feature isn't for you.
 
