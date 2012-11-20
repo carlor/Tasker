@@ -33,8 +33,8 @@ These are the operations which change your task list:
     1. Add Task...
         Launches a dialog where you configure your task. The description should
         be a fully descriptive name for what the task is. Effort is, on a 0-100
-        scale, the time and energy required to complete the task. Fill in the
-        number of days left until the due date in the Days Left box.
+        scale, the time and energy required to complete the task. Choose the date
+        due, or weekly repititions, for the Due Date.
     2. Put Off
         Puts the current task back into the list, taking out a new task. This
         should be used, for example, with easy tasks that can be responsibly

@@ -72,8 +72,7 @@ public class TaskFile {
         return String.format("%s %s %s",
                 currentTask.getDescription().replace(' ', '_'),
                 currentTask.getAbsoluteEffort(),
-                currentTask.getMNixDueDate()
-                );
+                currentTask.dateString());
     }
     
     // tokens -> task
@@ -81,7 +80,16 @@ public class TaskFile {
         String desc = sc.next().replace('_', ' ');
         int eff = sc.nextInt();
         long mnixDue = sc.nextLong();
-        return new Task(desc, eff, mnixDue);
+        if (mnixDue == 0) {
+            boolean[] dates = new boolean[8];
+            for(int i=0; i<dates.length; i++) {
+                dates[i] = sc.nextInt() != 0;
+            }
+            long mnixCurDue = sc.nextLong();
+            return new WeeklyTask(desc, eff, mnixCurDue, dates);
+        } else {
+            return new Task(desc, eff, mnixDue);
+        }
     }
     
     // ~/default.tasker

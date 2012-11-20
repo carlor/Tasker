@@ -196,7 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
         update();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void beep() {
+    public static void beep() {
         Toolkit.getDefaultToolkit().beep();
     }
     

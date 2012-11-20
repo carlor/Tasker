@@ -20,13 +20,13 @@ public class Task {
     // the days between the due date and today, rounded up
     public int daysLeft() {
         long now = (new Date()).getTime();
-        long dist = mNixDueDate - now;
+        long dist = getMNixDueDate() - now;
         return (int)Math.ceil(dist / (1000.0*60*60*24));
     }
     
     private String description;
     private int absEffort;
-    private long mNixDueDate;
+    protected long mNixDueDate;
 
     // one-liner human-readable description of the task
     public String getDescription() {
@@ -46,5 +46,10 @@ public class Task {
     // absolute effort / days left
     public int getRelativeEffort() {
         return (int)Math.ceil(getAbsoluteEffort()*1.0 / Math.abs(daysLeft()));
+    }
+    
+    // for file format
+    public String dateString() {
+        return String.valueOf(getMNixDueDate());
     }
 } 
