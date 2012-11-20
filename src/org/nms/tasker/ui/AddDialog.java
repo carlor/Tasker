@@ -7,18 +7,25 @@
  */
 package org.nms.tasker.ui;
 
+import java.awt.FlowLayout;
 import java.util.Date;
 import org.nms.tasker.tasks.Task;
 import org.nms.tasker.tasks.TaskManager;
+import org.nms.tasker.tasks.WeeklyTask;
 
 public class AddDialog extends javax.swing.JDialog {
     private TaskManager tasks;
+    private DatePane dp;
 
     // Creates an AddDialog that, when finished, should add to the tm.
     public AddDialog(java.awt.Frame parent, boolean modal, TaskManager tm) {
         super(parent, modal);
         initComponents();
         tasks = tm;
+        jPanel1.setLayout(new FlowLayout());
+        dp = new DatePane();
+        jPanel1.add(dp);
+        pack();
     }
 
     // NetBeans-generated form code
@@ -32,9 +39,9 @@ public class AddDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jSlider1 = new javax.swing.JSlider();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add an Item");
@@ -45,9 +52,7 @@ public class AddDialog extends javax.swing.JDialog {
 
         jSlider1.setMajorTickSpacing(10);
 
-        jLabel3.setText("Days Left:");
-
-        jSpinner1.setValue(1);
+        jLabel3.setText("Due Date:");
 
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -63,29 +68,38 @@ public class AddDialog extends javax.swing.JDialog {
             }
         });
 
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 270, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 56, Short.MAX_VALUE)
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(18, 18, 18)
-                        .add(jSlider1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
+                        .add(jSlider1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(24, 24, 24)
-                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
-                    .add(jLabel1)
-                    .add(jLabel2)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel1)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2)
+                    .add(layout.createSequentialGroup()
                         .add(jButton2)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jButton1))
-                    .add(jLabel3)
-                    .add(layout.createSequentialGroup()
-                        .add(26, 26, 26)
-                        .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel3))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,8 +116,8 @@ public class AddDialog extends javax.swing.JDialog {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel3)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jButton1)
                     .add(jButton2))
@@ -120,10 +134,19 @@ public class AddDialog extends javax.swing.JDialog {
 
     // Press the "OK" button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Task t = new Task(
-                jTextField1.getText(),
-                jSlider1.getValue(), 
-                ((Integer)jSpinner1.getValue()).intValue()*24*60*60*1000 + (new Date()).getTime());
+        String desc = jTextField1.getText();
+        int effort = jSlider1.getValue();
+        
+        Task t;
+        if (dp.isWeekly()) {
+            t = new WeeklyTask(desc, effort, (new Date()).getTime(), dp.selectedWeeks());
+            if (!dp.verifyWeeks()) {
+                MainFrame.beep();
+                return;
+            }
+        } else {
+            t = new Task(desc, effort, dp.getDate());
+        }
         tasks.addTask(t);
         
         this.dispose();
@@ -136,8 +159,8 @@ public class AddDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

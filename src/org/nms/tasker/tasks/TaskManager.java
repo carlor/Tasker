@@ -51,7 +51,12 @@ public class TaskManager implements Comparator<Task> {
     // throw out current task
     public void completeCurrentTask() {
         notEmpty();
-        nextTask();
+        if (current instanceof WeeklyTask) {
+            ((WeeklyTask)current).advanceToNext();
+            shuffle();
+        } else {
+            nextTask();
+        }
     }
     
     // finds a new task, considering this one
