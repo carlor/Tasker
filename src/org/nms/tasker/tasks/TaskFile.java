@@ -31,7 +31,8 @@ public class TaskFile {
             save(tks);
         } else {
             // read in full
-            if (!sc.next().equals("tasker0.1")) {
+            String token = sc.next();
+            if (!(token.equals("tasker0.1") || token.equals("tasker0.2"))) {
                 throw new IOException("unsupported version");
             }
             String nxt = sc.next();
@@ -54,7 +55,7 @@ public class TaskFile {
     public void save(TaskManager tks) throws FileNotFoundException, IOException {
         file.createNewFile();
         PrintStream ps = new PrintStream(new FileOutputStream(file));
-        ps.println("tasker0.1");
+        ps.println("tasker0.2");
         if (tks.isEmpty()) {
             ps.println("empty");
         } else {

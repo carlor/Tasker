@@ -33,8 +33,8 @@ These are the operations which change your task list:
     1. Add Task...
         Launches a dialog where you configure your task. The description should
         be a fully descriptive name for what the task is. Effort is, on a 0-100
-        scale, the time and energy required to complete the task. Choose the date
-        due, or weekly repititions, for the Due Date.
+        scale, the time and energy required to complete the task. Choose the
+        date due, or weekly repititions, for the Due Date.
     2. Put Off
         Puts the current task back into the list, taking out a new task. This
         should be used, for example, with easy tasks that can be responsibly
@@ -73,16 +73,17 @@ by relative effort where R is a random number of Gaussian distribution where:
     
 It reads from the task file ~/default.tasker, which is in a text-based format
 with time measured in millinix-time (milliseconds from the Unix epoch). This
-is the grammar:
+is the grammar (a superset of the tasker0.1 format):
 
     TaskerFile ::=
-        'tasker0.1' ['empty' | NotEmpty]
+        'tasker0.2' ['empty' | NotEmpty]
     NotEmpty ::=
-        'current:' Task 'others:' Others
+        'current:' Task 'others:' (Others)
     Others ::=
         [Task | Task Others]
     Task ::=
         Description AbsoluteEffort MillinixDueDate
+        Description AbsoluteEffort '0 0' DaysOfWeek MillinixFirstDueDate 
         
 The description will have underscores ('_') in place of spaces (' ').
 
