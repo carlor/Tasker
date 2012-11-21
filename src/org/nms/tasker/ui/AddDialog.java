@@ -139,11 +139,11 @@ public class AddDialog extends javax.swing.JDialog {
         
         Task t;
         if (dp.isWeekly()) {
-            t = new WeeklyTask(desc, effort, (new Date()).getTime(), dp.selectedWeeks());
             if (!dp.verifyWeeks()) {
                 MainFrame.beep();
                 return;
             }
+            t = new WeeklyTask(desc, effort, (new Date()).getTime(), dp.selectedWeeks());
         } else {
             t = new Task(desc, effort, dp.getDate());
         }
