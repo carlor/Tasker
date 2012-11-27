@@ -66,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Tasker 0.1");
+        setTitle("Tasker");
 
         jToolBar1.setRollover(true);
 
