@@ -24,9 +24,17 @@ public class CurrentTaskPane extends javax.swing.JPanel {
             jLabel3.setText("");
             jLabel4.setText("");
         } else {
-            jLabel1.setText(String.format("<html><b>%s</b></html>", task.getDescription()));
+            int dl = task.daysLeft();
+            jLabel1.setText(
+                    String.format("<html><b>%s</b>%s</html>", 
+                    task.getDescription(),
+                    dl < 0 ? ", <font color=red>LATE</font>" : ""));
             jLabel2.setText(String.format("Absolute Effort: %d", task.getAbsoluteEffort()));
-            jLabel3.setText(String.format("Days Left: %d", task.daysLeft()));
+            if (dl < 0) {
+                jLabel3.setText(String.format("Days Late: %d", -dl));
+            } else {
+                jLabel3.setText(String.format("Days Left: %d", dl));
+            }
             jLabel4.setText(String.format("Relative Effort: %d", task.getRelativeEffort()));
         }
     }
