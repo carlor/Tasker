@@ -61,6 +61,12 @@ Absolute effort is a 0-100 user-defined measure of the time and energy required
 of the given task, while days_left is the number of days left until the user-
 specified due date. Relative effort can be seen as effort per day.
 
+But if the task is late, another formula is used:
+    
+    relative_effort = absolute_effort * 2 * days_late
+    
+This puts late tasks at the top of the list.
+
 Tasker doesn't just choose the task with the highest relative effort on the
 task list as the next task. Doing so could force the user into doing similar
 hard projects, and sometimes they need a break. Instead, it randomly chooses
