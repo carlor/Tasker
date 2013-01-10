@@ -43,7 +43,7 @@ public class TaskFile {
         Scanner sc = new Scanner(is);
         if (!sc.hasNext()) {
             // create empty
-            save(tks);
+            //save(tks);
         } else {
             // read in full
             String token = sc.next();

@@ -28,6 +28,7 @@ public class TaskManager implements Comparator<Task> {
     public TaskManager(boolean noDefault) {
         current = null;
         otherTasks = new ArrayList<Task>();
+        tf = new TaskFile(noDefault);
     }
     
     public void open(InputStream stream) throws IOException {
