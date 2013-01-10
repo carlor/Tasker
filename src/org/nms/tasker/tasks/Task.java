@@ -45,7 +45,14 @@ public class Task {
     
     // absolute effort / days left
     public int getRelativeEffort() {
-        return (int)Math.ceil(getAbsoluteEffort()*1.0 / Math.abs(daysLeft()));
+        int dl = daysLeft();
+        if (dl < 0) {
+            // days late
+            dl = -dl;
+            return getAbsoluteEffort() * 2 * dl;
+        } else {
+            return (int)Math.ceil(getAbsoluteEffort()*1.0 / dl);
+        }
     }
     
     // for file format

@@ -9,6 +9,8 @@ package org.nms.tasker.tasks;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,10 +20,23 @@ import java.util.Random;
 public class TaskManager implements Comparator<Task> {
     // creates an empty task list, then opens from default.tasker file
     public TaskManager() throws FileNotFoundException, IOException {
-        current = null;
+        this(true);
         tf = new TaskFile();
-        otherTasks = new ArrayList<Task>();
         tf.open(this);
+    }
+    
+    public TaskManager(boolean noDefault) {
+        current = null;
+        otherTasks = new ArrayList<Task>();
+        tf = new TaskFile(noDefault);
+    }
+    
+    public void open(InputStream stream) throws IOException {
+        tf.openFrom(this, stream);
+    }
+    
+    public void save(OutputStream stream) throws IOException {
+        tf.saveTo(this, stream);
     }
     
     // the current task
