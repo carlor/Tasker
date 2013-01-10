@@ -12,20 +12,35 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
 public class TaskFile {
+    public static String LOCAL_NAME = "default.tasker";
 
     public TaskFile() {
         // the file is ~/default.tasker
-        file = new File(System.getProperty("user.home").concat("/default.tasker"));
+        file = new File(
+                System.getProperty("user.home")
+                        .concat(System.getProperty("file.separator"))
+                        .concat(LOCAL_NAME));
     }
-
+    
+    public TaskFile(boolean noDefault) {
+        file = null;
+    }
+    
     // given an empty TaskManager, puts tasks into it from file
     public void open(TaskManager tks) throws FileNotFoundException, IOException {
         file.createNewFile();
-        Scanner sc = new Scanner(new FileInputStream(file));
+        openFrom(tks, new FileInputStream(file));
+    }
+    
+    public void openFrom(TaskManager tks, InputStream is)
+            throws FileNotFoundException, IOException {
+        Scanner sc = new Scanner(is);
         if (!sc.hasNext()) {
             // create empty
             save(tks);
@@ -54,7 +69,12 @@ public class TaskFile {
     // puts the tasks into a file
     public void save(TaskManager tks) throws FileNotFoundException, IOException {
         file.createNewFile();
-        PrintStream ps = new PrintStream(new FileOutputStream(file));
+        saveTo(tks, new FileOutputStream(file));
+    }
+    
+    public void saveTo(TaskManager tks, OutputStream os) 
+            throws FileNotFoundException, IOException {
+        PrintStream ps = new PrintStream(os);
         ps.println("tasker0.2");
         if (tks.isEmpty()) {
             ps.println("empty");
