@@ -18,18 +18,28 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class TaskFile {
-    public static String LOCAL_NAME = "default.tasker";
-
-    public TaskFile() {
-        // the file is ~/default.tasker
-        file = new File(
-                System.getProperty("user.home")
+    public static final String LOCAL_NAME = "default.tasker";
+    public static final File DEFAULT_FILE =
+            new File(System.getProperty("user.home")
                         .concat(System.getProperty("file.separator"))
                         .concat(LOCAL_NAME));
+
+    @Deprecated
+    public TaskFile() {
+        // the file is ~/default.tasker
+        file = DEFAULT_FILE;
     }
     
     public TaskFile(boolean noDefault) {
         file = null;
+    }
+    
+    public TaskFile(File f) {
+        file = f;
+    }
+    
+    public String getFileName() {
+        return file.getName();
     }
     
     // given an empty TaskManager, puts tasks into it from file

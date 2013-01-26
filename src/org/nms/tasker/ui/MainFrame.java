@@ -8,6 +8,7 @@
 package org.nms.tasker.ui;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
@@ -22,14 +23,18 @@ public class MainFrame extends javax.swing.JFrame {
     // Initializes the window
     public MainFrame() {
         initComponents();
+        // TODO place
         try {
-            tasks = new TaskManager();
-            update();
-        } catch (Exception ex) {
-            handle(ex);
+            FileMenu.createMenuBar(this);
+        } catch (IOException ioe) {
+            handle(ioe);
         }
-        
         initTimer();
+    }
+    
+    public void openTaskManager(TaskManager tm) {
+        tasks = tm;
+        update();
     }
     
     // Updates the UI to the current state and saves the task file
@@ -45,7 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // shows an error message
-    private void handle(Exception ex) {
+    public void handle(Exception ex) {
         JOptionPane.showMessageDialog(this, ex, "Error with file", JOptionPane.ERROR_MESSAGE);
     }
 
