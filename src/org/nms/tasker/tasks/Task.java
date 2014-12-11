@@ -51,7 +51,7 @@ public class Task {
             dl = -dl;
             return getAbsoluteEffort() * 2 * dl;
         } else {
-            return (int)Math.ceil(getAbsoluteEffort()*1.0 / dl);
+            return (int)Math.ceil(getAbsoluteEffort()*1.0 / (dl+1));
         }
     }
     
