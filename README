@@ -56,7 +56,7 @@ Technical Details
 -----------------
 It chooses tasks based relative effort, defined:
 
-    relative_effort = absolute_effort / days_left
+    relative_effort = absolute_effort / (days_left + 1)
 
 Absolute effort is a 0-100 user-defined measure of the time and energy required
 of the given task, while days_left is the number of days left until the user-
